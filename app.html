@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instalar App</title>
+  <link rel="manifest" href="/manifest.json" />
+  <script>
+    let deferredPrompt;
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById("installButton").style.display = "block";
+    });
+
+    function installApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === "accepted") {
+            console.log("👍 App instalada");
+          } else {
+            console.log("👎 Cancelada");
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("Instalação não disponível neste momento.");
+      }
+    }
+  </script>
+</head>
+<body style="background:black; color:white; text-align:center; padding-top:100px;">
+  <h1>Peanutbrain</h1>
+  <button id="installButton" style="display:none; font-size: 24px;" onclick="installApp()">
+    Instalar App
+  </button>
+</body>
+</html>
