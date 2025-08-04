@@ -22,7 +22,7 @@
 
       #login {
         text-align: center;
-        margin-top: 300px;
+        margin-top: 450px;
       }
 
       input {
@@ -114,10 +114,20 @@
           iframe.src = targetUrl;
           document.getElementById("frame-wrapper").style.display = "block";
           window.scrollTo(0, 0);
-        } else {
-          alert("Errado. Vai dormir.");
-        }
+             } else {
+        alert("Errado. Vai dormir.");
       }
-    </script>
-  </body>
+    }
+  </script>
+
+  <!-- ✅ Registo do Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js").then(() => {
+        console.log("✅ Service Worker registado");
+      });
+    }
+  </script>
+</body>
 </html>
+
