@@ -78,21 +78,26 @@ html, body {
         );
       }
 
-      function check() {
-        const input = document.getElementById("pw").value;
+function check() {
+  const input = document.getElementById("pw").value;
 
-        if (input === PASS) {
-          if (isInSocialWebview()) {
-            window.location.href = "https://curly-path-662902.framer.app/start2";
-          } else if (isInApp()) {
-            window.location.href = "https://curly-path-662902.framer.app/capa";
-          } else {
-            window.location.href = "https://curly-path-662902.framer.app/start666";
-          }
-        } else {
-          alert("Errado. Vai dormir.");
-        }
-      }
+  if (input === PASS) {
+    if (isInSocialWebview()) {
+      // Substituir conteúdo pelo iframe
+      document.body.innerHTML = `
+        <iframe src="https://curly-path-662902.framer.app/start2"
+                style="border:0;width:100vw;height:100vh;" 
+                allow="autoplay; fullscreen"></iframe>`;
+    } else if (isInApp()) {
+      window.location.href = "https://curly-path-662902.framer.app/capa";
+    } else {
+      window.location.href = "https://curly-path-662902.framer.app/start";
+    }
+  } else {
+    alert("Errado. Vai dormir.");
+  }
+}
+
     </script>
   </body>
 </html>
