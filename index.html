@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/icon.png" />
+    <title>Peanutbrain</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: black;
+        color: white;
+        font-family: sans-serif;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #login {
+        text-align: center;
+      }
+
+      input {
+        padding: 10px;
+        font-size: 16px;
+        background: #111;
+        border: 1px solid #444;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background: cyan;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="login">
+      <p>Palavra-passe:</p>
+      <input type="password" id="pw" />
+      <br />
+      <button onclick="check()">Entrar</button>
+    </div>
+
+    <script>
+      const PASS = "xxx"; // <- altera aqui tua password
+
+      function isInApp() {
+        return (
+          window.matchMedia('(display-mode: standalone)').matches ||
+          window.navigator.standalone === true
+        );
+      }
+
+      function isInWebview() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        return /FBAN|FBAV|Instagram|Messenger|Line|WeChat|Snapchat/i.test(ua);
+      }
+
+      function check() {
+        const input = document.getElementById("pw").value;
+
+        if (input === PASS) {
+          if (isInWebview()) {
+            window.location.href = "https://curly-path-662902.framer.app/start2";
+          } else if (isInApp()) {
+            window.location.href = "https://curly-path-662902.framer.app/capa";
+          } else {
+            window.location.href = "https://curly-path-662902.framer.app/start";
+          }
+        } else {
+          alert("Errado. Vai dormir.");
+        }
+      }
+    </script>
+  </body>
+</html>
