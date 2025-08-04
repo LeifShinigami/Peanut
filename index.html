@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5.0" />
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" href="/icon.png" />
@@ -22,7 +22,7 @@
 
       #login {
         text-align: center;
-        margin-top: 450px;
+        margin-top: 400px;
       }
 
       input {
@@ -40,6 +40,19 @@
         background: cyan;
         border: none;
         cursor: pointer;
+      }
+
+      #installButton {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px;
+        background: cyan;
+        color: black;
+        font-weight: bold;
+        border-radius: 10px;
+        display: none;
+        z-index: 99999;
       }
 
       #frame-wrapper {
@@ -64,7 +77,10 @@
       <button onclick="check()">Entrar</button>
     </div>
 
-    <!-- Iframe de conteúdo -->
+    <!-- Botão PWA -->
+    <div id="installButton">Instalar App</div>
+
+    <!-- Framer Iframe -->
     <div id="frame-wrapper">
       <iframe id="framer-frame"
               allow="autoplay; fullscreen"
@@ -72,7 +88,7 @@
     </div>
 
     <script>
-      const PASS = "xxx"; // <- mete aqui tua password
+      const PASS = "xxx"; // <-- mete aqui tua password
 
       function isInApp() {
         return (
@@ -83,7 +99,6 @@
 
       function isInSocialWebview() {
         const ua = navigator.userAgent || navigator.vendor || window.opera;
-
         return (
           /\bwv\b|\bWebView\b/i.test(ua) ||
           (
@@ -110,42 +125,39 @@
           }
 
           document.getElementById("login").style.display = "none";
-          const iframe = document.getElementById("framer-frame");
-          iframe.src = targetUrl;
           document.getElementById("frame-wrapper").style.display = "block";
+          document.getElementById("framer-frame").src = targetUrl;
           window.scrollTo(0, 0);
-              } else {
-        alert("Errado. Vai dormir.");
+        } else {
+          alert("Errado. Vai dormir.");
+        }
       }
-    }
-  </script>
 
-  <!-- Instalação PWA via imagem com ID "installButton" -->
-  <script>
-    // Guarda o evento de instalação para uso posterior
-    window.deferredPrompt = null;
+      // 👇 PWA install logic
+      let deferredPrompt = null;
 
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      window.deferredPrompt = e;
-      console.log("✅ PWA pronta para instalar");
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const btn = document.getElementById("installButton");
+        if (btn) {
+          btn.style.display = "block";
+          btn.onclick = () => {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+              deferredPrompt = null;
+              btn.style.display = "none";
+            });
+          };
+        }
+      });
 
-      const btn = document.getElementById("installButton");
-      if (btn) {
-        btn.style.display = "block"; // Podes remover se já está visível
-
-        btn.onclick = () => {
-          window.deferredPrompt.prompt();
-          window.deferredPrompt.userChoice.then(() => {
-            window.deferredPrompt = null;
-            btn.style.display = "none"; // Ou manter visível se quiseres
-          });
-        };
+      // 👇 Service Worker
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/service-worker.js").then(() => {
+          console.log("✅ Service Worker registado");
+        });
       }
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
-
-
