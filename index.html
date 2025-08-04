@@ -53,21 +53,6 @@
         height: 100%;
         border: none;
       }
-
-      #installButton {
-        display: none;
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 9999;
-        padding: 12px 20px;
-        font-size: 16px;
-        background: cyan;
-        color: black;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      }
     </style>
   </head>
   <body>
@@ -85,9 +70,6 @@
               allow="autoplay; fullscreen"
               scrolling="yes"></iframe>
     </div>
-
-    <!-- Botão de instalação -->
-    <button id="installButton">Instalar App</button>
 
     <script>
       const PASS = "xxx"; // troca pela tua password
@@ -125,7 +107,6 @@
             targetUrl = "https://curly-path-662902.framer.app/capa";
           } else {
             targetUrl = "https://curly-path-662902.framer.app/session1";
-            document.getElementById("installButton").style.display = "block"; // só mostra no Chrome normal
           }
 
           document.getElementById("login").style.display = "none";
@@ -137,32 +118,6 @@
           alert("Errado. Vai dormir.");
         }
       }
-    </script>
-
-    <!-- Lógica de instalação -->
-    <script>
-      let deferredPrompt = null;
-
-      window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        console.log("✅ PWA pronta para instalar");
-
-        const btn = document.getElementById("installButton");
-        if (btn) {
-          btn.onclick = () => {
-            if (deferredPrompt) {
-              deferredPrompt.prompt();
-              deferredPrompt.userChoice.then(() => {
-                deferredPrompt = null;
-                btn.style.display = "none";
-              });
-            } else {
-              alert("Instalação não disponível.");
-            }
-          };
-        }
-      });
     </script>
   </body>
 </html>
