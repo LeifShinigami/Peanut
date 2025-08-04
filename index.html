@@ -115,6 +115,7 @@
           document.getElementById("frame-wrapper").style.display = "block";
           window.scrollTo(0, 0);
               } else {
+            } else {
         alert("Errado. Vai dormir.");
       }
     }
@@ -122,26 +123,30 @@
 
   <!-- Instalação PWA via imagem com ID "installButton" -->
   <script>
-    let deferredPrompt = null;
+    // Guarda o evento de instalação para uso posterior
+    window.deferredPrompt = null;
 
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
-      deferredPrompt = e;
+      window.deferredPrompt = e;
+      console.log("✅ PWA pronta para instalar");
 
       const btn = document.getElementById("installButton");
       if (btn) {
-        btn.style.display = "block";
+        btn.style.display = "block"; // Podes remover se já está visível
 
         btn.onclick = () => {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then(() => {
-            deferredPrompt = null;
-            btn.style.display = "none"; // Ou mantém visível
+          window.deferredPrompt.prompt();
+          window.deferredPrompt.userChoice.then(() => {
+            window.deferredPrompt = null;
+            btn.style.display = "none"; // Ou manter visível se quiseres
           });
         };
       }
     });
   </script>
+
 </body>
 </html>
+
 
