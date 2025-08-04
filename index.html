@@ -114,19 +114,33 @@
           iframe.src = targetUrl;
           document.getElementById("frame-wrapper").style.display = "block";
           window.scrollTo(0, 0);
-             } else {
+              } else {
         alert("Errado. Vai dormir.");
       }
     }
   </script>
 
-  <!-- ✅ Registo do Service Worker -->
+  <!-- Instalação PWA via imagem com ID "installButton" -->
   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js").then(() => {
-        console.log("✅ Service Worker registado");
-      });
-    }
+    let deferredPrompt = null;
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      const btn = document.getElementById("installButton");
+      if (btn) {
+        btn.style.display = "block";
+
+        btn.onclick = () => {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            btn.style.display = "none"; // Ou mantém visível
+          });
+        };
+      }
+    });
   </script>
 </body>
 </html>
