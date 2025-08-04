@@ -53,7 +53,7 @@
     </div>
 
     <script>
-      const PASS = "xxx"; // <- altera aqui tua password
+      const PASS = "xxx"; // <- troca aqui pela tua password real
 
       function isInApp() {
         return (
@@ -62,16 +62,25 @@
         );
       }
 
-      function isInWebview() {
+      function isInSocialWebview() {
         const ua = navigator.userAgent || navigator.vendor || window.opera;
-        return /FBAN|FBAV|Instagram|Messenger|Line|WeChat|Snapchat/i.test(ua);
+
+        return (
+          /\bwv\b|\bWebView\b/i.test(ua) ||
+          (
+            !window.matchMedia('(display-mode: standalone)').matches &&
+            !window.navigator.standalone &&
+            typeof window.opener === "undefined" &&
+            /Instagram|FBAV|FBAN|Messenger|Line|Snapchat|TikTok|Telegram|Pinterest/i.test(ua)
+          )
+        );
       }
 
       function check() {
         const input = document.getElementById("pw").value;
 
         if (input === PASS) {
-          if (isInWebview()) {
+          if (isInSocialWebview()) {
             window.location.href = "https://curly-path-662902.framer.app/start2";
           } else if (isInApp()) {
             window.location.href = "https://curly-path-662902.framer.app/capa";
