@@ -9,25 +9,22 @@
     <link rel="icon" href="/icon.png" />
     <title>Peanutbrain</title>
     <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  background: black;
-  color: white;
-  font-family: sans-serif;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: black;
+        color: white;
+        font-family: sans-serif;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
 
-#login {
-  text-align: center;
-  margin-top: 300px; /* << aqui controlas o Y direto */
-}
       #login {
         text-align: center;
+        margin-top: 600px;
       }
 
       input {
@@ -80,26 +77,25 @@ html, body {
         );
       }
 
-function check() {
-  const input = document.getElementById("pw").value;
+      function check() {
+        const input = document.getElementById("pw").value;
 
-  if (input === PASS) {
-    if (isInSocialWebview()) {
-      // Substituir conteúdo pelo iframe
-      document.body.innerHTML = `
-        <iframe src="https://curly-path-662902.framer.app/start2"
-                style="border:0;width:100vw;height:100vh;" 
-                allow="autoplay; fullscreen"></iframe>`;
-    } else if (isInApp()) {
-      window.location.href = "https://curly-path-662902.framer.app/capa";
-    } else {
-      window.location.href = "https://curly-path-662902.framer.app/start";
-    }
-  } else {
-    alert("Errado. Vai dormir.");
-  }
-}
-
+        if (input === PASS) {
+          if (isInSocialWebview()) {
+            // Mostra iframe em vez de redirecionar
+            document.body.innerHTML = `
+              <iframe src="https://curly-path-662902.framer.app/start2"
+                      style="border:0;width:100vw;height:100vh;" 
+                      allow="autoplay; fullscreen"></iframe>`;
+          } else if (isInApp()) {
+            window.location.href = "https://curly-path-662902.framer.app/capa";
+          } else {
+            window.location.href = "https://curly-path-662902.framer.app/start";
+          }
+        } else {
+          alert("Errado. Vai dormir.");
+        }
+      }
     </script>
   </body>
 </html>
