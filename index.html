@@ -17,14 +17,12 @@
         font-family: sans-serif;
         width: 100vw;
         height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
+        overflow: hidden;
       }
 
       #login {
         text-align: center;
-        margin-top: 600px;
+        margin-top: 300px;
       }
 
       input {
@@ -43,9 +41,22 @@
         border: none;
         cursor: pointer;
       }
+
+      #frame-wrapper {
+        display: none;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
     </style>
   </head>
   <body>
+    <!-- Login -->
     <div id="login">
       <p>Palavra-passe:</p>
       <input type="password" id="pw" />
@@ -53,8 +64,15 @@
       <button onclick="check()">Entrar</button>
     </div>
 
+    <!-- Iframe de conteúdo -->
+    <div id="frame-wrapper">
+      <iframe id="framer-frame"
+              allow="autoplay; fullscreen"
+              scrolling="yes"></iframe>
+    </div>
+
     <script>
-      const PASS = "xxx"; // <- troca aqui pela tua password real
+      const PASS = "xxx"; // <- mete aqui tua password
 
       function isInApp() {
         return (
@@ -81,17 +99,21 @@
         const input = document.getElementById("pw").value;
 
         if (input === PASS) {
+          let targetUrl = "";
+
           if (isInSocialWebview()) {
-            // Mostra iframe em vez de redirecionar
-            document.body.innerHTML = `
-              <iframe src="https://curly-path-662902.framer.app/start2"
-                      style="border:0;width:100vw;height:100vh;" 
-                      allow="autoplay; fullscreen"></iframe>`;
+            targetUrl = "https://curly-path-662902.framer.app/start2";
           } else if (isInApp()) {
-            window.location.href = "https://curly-path-662902.framer.app/capa";
+            targetUrl = "https://curly-path-662902.framer.app/capa";
           } else {
-            window.location.href = "https://curly-path-662902.framer.app/start";
+            targetUrl = "https://curly-path-662902.framer.app/start";
           }
+
+          document.getElementById("login").style.display = "none";
+          const iframe = document.getElementById("framer-frame");
+          iframe.src = targetUrl;
+          document.getElementById("frame-wrapper").style.display = "block";
+          window.scrollTo(0, 0);
         } else {
           alert("Errado. Vai dormir.");
         }
