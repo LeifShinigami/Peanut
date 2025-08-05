@@ -19,7 +19,6 @@
         background-color: #000 !important;
         color-scheme: dark;
         overflow: hidden;
-        font-family: sans-serif;
       }
 
       #splash {
@@ -33,50 +32,35 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        font-family: sans-serif;
         z-index: 9999;
       }
 
-      #wrapper {
-        position: fixed;
+      iframe {
+        position: absolute;
         top: 0;
         left: 0;
+        border: none;
         width: 100vw;
         height: 100vh;
-        z-index: 1;
-      }
-
-      .iframe-container {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-
-      .iframe-container iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
+        display: none;
       }
     </style>
   </head>
   <body>
     <div id="splash">A iniciar…</div>
-    <div id="wrapper" style="display: none;">
-      <div class="iframe-container">
-        <iframe id="framer-frame" allow="autoplay; fullscreen" scrolling="yes"></iframe>
-      </div>
-    </div>
+    <iframe id="mainFrame" allow="autoplay; fullscreen"></iframe>
 
     <script>
       const PASS = "xxx"; // muda isto
 
+      const iframe = document.getElementById("mainFrame");
       const splash = document.getElementById("splash");
-      const iframe = document.getElementById("framer-frame");
-      const wrapper = document.getElementById("wrapper");
 
       function loadIframe(url) {
         iframe.src = url;
         iframe.onload = () => {
-          wrapper.style.display = "block";
+          iframe.style.display = "block";
           splash.style.display = "none";
         };
       }
@@ -147,7 +131,7 @@
         } else if (isSafari()) {
           loadIframe("/ios.html?v=2");
         } else if (isChrome()) {
-          loadIframe("https://curly-path-662902.framer.app/session1"); // atualizado
+          window.location.href = "pick.html";
         } else {
           loadIframe("/unsupported.html?v=2");
         }
